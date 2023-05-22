@@ -82,6 +82,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+nginx/
 
 #other_files
 .md
