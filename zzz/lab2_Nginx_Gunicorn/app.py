@@ -1,3 +1,5 @@
+import os
+
 def simple_app(environ, start_response):
     resp = 'Smart move:\n '
     for i in environ:
