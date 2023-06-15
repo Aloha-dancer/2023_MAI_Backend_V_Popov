@@ -88,3 +88,4 @@ nginx/
 #other_files
 .md
 !README.md
+.data/

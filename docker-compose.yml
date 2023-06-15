@@ -1,0 +1,94 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    build:
+      context: Database
+      dockerfile: Dockerfile
+    container_name: postgres
+    environment:
+      POSTGRES_DB: "game_shop_proj"
+      POSTGRES_USER: "gamer"
+      POSTGRES_PASSWORD: "WeLoveGames"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      
+    networks:
+      - app_network
+
+    expose:
+      - "5433"
+
+    ports:
+      - "5433:5433"
+    
+    command:
+      -p 5433
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gamer -d game_shop_proj"]
+      interval: 15s
+      timeout: 10s
+      retries: 7
+      start_period: 12s
+    
+    restart: unless-stopped
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4GB
+
+  django:
+    build:
+      context: DockerDjango
+      dockerfile: Dockerfile
+    container_name: django
+    environment:
+      POSTGRES_NAME: "game_shop_proj"
+      POSTGRES_USER: "gamer"
+      POSTGRES_PASSWORD: "WeLoveGames"
+      POSTGRES_HOST: "postgres"
+
+    restart: always
+
+    volumes:
+      - .:/code
+
+    ports:
+      - "8000:8000"
+
+    networks:
+      - app_network
+
+    depends_on:
+      - postgres
+
+    command: sh -c "export DJANGO_SETTINGS_MODULE=game_shop.docker_settings &&
+                    python3 DjangoProject/manage.py makemigrations &&
+                    python3 DjangoProject/manage.py migrate &&
+                    python3 DjangoProject/manage.py runserver 0.0.0.0:8000"
+
+  nginx:
+    build:
+      context: nginx_conf
+      dockerfile: Dockerfile
+    container_name: nginx
+
+    restart: always
+
+    ports:
+      - "81:81"
+
+    networks:
+      - app_network
+
+    depends_on:
+      - django
+
+networks:
+  app_network:
+    driver: bridge

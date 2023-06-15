@@ -9,7 +9,7 @@ class GameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
-        fields = ('uuid', 'title', 'description', 'sysreq', 'price',
+        fields = ('title', 'description', 'sysreq', 'price',
                   'company', 'category')
 
 
@@ -20,7 +20,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('uuid', 'title', 'description', 'age_bot_lim')
+        fields = ('title', 'description', 'age_bot_lim')
 
 class CompanySerializer(serializers.ModelSerializer):
 
@@ -29,7 +29,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ['uuid', 'name', 'country', 'cash_per_cent', 'contract_info']
+        fields = ('name', 'country', 'cash_per_cent', 'contract_info')
 
 class SalesSerializer(serializers.ModelSerializer):
 

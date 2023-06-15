@@ -2,6 +2,7 @@ from django.db import models
 from djmoney.models.fields import MoneyField
 import uuid
 import json
+import typing 
 
 class Game(models.Model):
 
@@ -34,16 +35,15 @@ class Game(models.Model):
     )
     
     class Meta:
-        db_table = 'shop"."game'
+        db_table = 'game'
         ordering = ["title"]
         verbose_name = "Game"
-        app_label = "shop"
     
 
     def __str__(self) -> str:
         return str(self.title) + ' ' + str(self.company)
     
-    def to_json_view(self) -> dict[str, str]:
+    def to_json_view(self):
         return 
         {
             'id': str(self.uuid),
@@ -74,15 +74,14 @@ class Category(models.Model):
     age_bot_lim = models.IntegerField()
 
     class Meta:
-        db_table = 'shop"."category'
+        db_table = 'category'
         ordering = ['title']
         verbose_name = 'Games category' 
-        app_label = "shop"
     
     def __str__(self) -> str:
         return str(self.title)
     
-    def to_json_view(self) -> dict[str, str]:
+    def to_json_view(self):
         return 
         {
             'id': str(self.uuid),
@@ -115,16 +114,15 @@ class Company(models.Model):
                                       through_fields = ("company", "category"))
 
     class Meta:
-        db_table = 'shop"."comapany'
+        db_table = 'comapany'
         ordering = ['name']
         verbose_name = 'Company creator'
-        app_label = "shop"
 
 
     def __str__(self) -> str:
         return str(self.name)
     
-    def to_json_view(self) -> dict[str, str]:
+    def to_json_view(self):
         return 
         {
             'id': str(self.uuid),
@@ -153,15 +151,14 @@ class Sales(models.Model):
     total = MoneyField(max_digits=14, decimal_places=2, null=True, default_currency='USD')
 
     class Meta:
-        db_table = 'shop"."sale'
+        db_table = 'sale'
         ordering = ['company', 'category', 'product']
         verbose_name = 'Games sales' 
-        app_label = "shop"
 
     def __str__(self) -> str:
         return str(self.company) + "\\" + str(self.category) + " :" + str(self.total)
 
-    def to_json_view(self) -> dict[str, str]:
+    def to_json_view(self):
         return 
         {
             'company_sale': str(self.company),

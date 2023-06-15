@@ -6,7 +6,6 @@ class LRUcache:
     '''
     _capacity: int
     _storage: dict
-
     '''
     Methods
     '''
@@ -18,7 +17,7 @@ class LRUcache:
     def set(self, key: str, value: Any) -> None:
         try:
             if len(self._storage) == self._capacity:
-                self._storage.popitem();
+                self._storage.pop(next(reversed(self._storage)))
             self._storage[key] = value
         except KeyError:
             print("Неправильный ключ")

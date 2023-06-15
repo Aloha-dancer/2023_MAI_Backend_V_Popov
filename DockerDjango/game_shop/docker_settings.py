@@ -1,5 +1,5 @@
 from pathlib import Path
-
+parent
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig',
     'djmoney',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -40,6 +41,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'game_shop.urls'
+
+
 
 TEMPLATES = [
     {
@@ -58,7 +61,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'game_shop.wsgi.application'
-DATABASE_SCHEMA = 'shop'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -66,14 +68,11 @@ DATABASE_SCHEMA = 'shop'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'OPTIONS': {
-            'options': '-c search_path=shop'
-        },
         'NAME' : 'game_shop_proj',
         'USER' : 'gamer',
         'PASSWORD' : 'WeLoveGames',
-        'HOST' : 'localhost',
-        'PORT' : '5432'
+        'HOST' : 'postgres',
+        'PORT' : '5433'
     }
 }
 
